@@ -1,1 +1,4 @@
 # verilogtoy
+needs: 
+iverilog
+gtkwave?

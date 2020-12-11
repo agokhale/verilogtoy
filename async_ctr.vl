@@ -1,0 +1,21 @@
+module ctr (freeze, inpp, countput);
+//freeze negedge registers the counter
+// inpp is the thing we are counting; this may be metastable cvs freeze as it's not exactly in a clock domain :( maybe
+parameter ctr_width =  32;
+input freeze, inpp;
+output [ctr_width:0] countput;
+reg[ctr_width:0] countput;
+reg [ctr_width:0] counter_reg;
+always @(negedge freeze or negedge inpp)
+	 begin
+	if ( !freeze ) begin
+		//we freeze on the falling edge, not unlike a reset
+		counter_reg <= 0;
+		countput = counter_reg[ctr_width:0];  // yes virginia, this registers outputs with implicit dff's
+		end
+	else	
+		//must be called by inpp
+		counter_reg <= counter_reg+1; 	
+	end
+
+endmodule

@@ -1,0 +1,17 @@
+module ctr (rst, clk, countput);
+parameter ctr_width =  32;
+input rst, clk;
+output[ctr_width:0] countput;
+reg [ctr_width:0] counter_reg;
+assign countput[ctr_width:0] = counter_reg[ctr_width:0]; 
+always @(negedge clk)
+	begin
+	if ( !rst ) 		
+		//reset  is now low
+		counter_reg <= 0;
+	else	
+		//must be called by clk
+		counter_reg <= counter_reg+1; 	
+	end
+
+endmodule

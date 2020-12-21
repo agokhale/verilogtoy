@@ -12,22 +12,33 @@
 `define timeslot_ns(A) ($floor( `clockperiod_ns * A ))
 `define timeslot_nowterm(A) (($time % `periodicity) - `timeslot_ns(A) == 0)
 
-module basicticker;
-reg i;
+//`define DEBUG 1
 
-	integer j;
+module clock12mhz(clock12out);
+	output clock12out;
+	reg i; //main df for the clock 
+
+`ifdef DEBUG
+	integer j; //helper to display clock timings
+`endif
+
+assign clock12out = i; 
+
 initial
 begin
-	$dumpfile ("dumpfileclock.vcd");
-	$dumpvars;
+	$dumpvars (0, clock12out);
 	$display ("hz %d",`cfrq_hz);
 	$display ("period %f ns",`clockperiod_ns);
+`ifdef DEBUG
 	for( j=3; j>=0; j = j-1) 
 		$display ("timeslot %d %d ns",j,`timeslot_ns(j) );
-	i=0;
+`endif
+	i=0; // start the clock in a known state
 	#`sim_length_ns $finish;
 end
 	always begin
+		// There are 3 terms here to address the comb of getting 12mhz into a 1ns 
+		// the lcd is important
 		#1 if `timeslot_nowterm(2) i=~i;
 		else if `timeslot_nowterm(1)  i=~i;
 		else if `timeslot_nowterm(0)  i=~i;

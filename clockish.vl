@@ -1,0 +1,31 @@
+
+// basic b8ch clok generator
+//simulatot timescale gak 
+`timescale 1ns/1ns
+`define sim_length_ns 1000000
+
+`define DEBUG 1
+
+module clockish (clockishout);
+	//10mhz defatult 
+	parameter hemiperiod_ns = 50; 
+	output clockishout;
+	reg i; //main dff for clockstate
+
+
+	assign clockishout = i; 
+initial 
+	begin
+	`ifdef DEBUG 
+		$dumpvars(0, clockishout); 
+	`endif
+	i=0; 
+	#`sim_length_ns $finish;
+	end
+
+	always begin 
+		#1 if ($time % hemiperiod_ns == 0 ) i = ~i; 
+	end 
+
+	
+endmodule

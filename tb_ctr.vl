@@ -1,0 +1,14 @@
+
+module testbench_ctr; 
+	wire ckio; 
+	wire [32:0] outcount;
+	reg rst; 
+	clock12mhz ck12mhzinst ( ckio);
+	ctr ztrinst (.rst( rst), .clk( ckio),  .countput (outcount[32:0]) );
+initial begin
+	$dumpvars( 0, ckio, outcount);
+	#4 rst=1;
+	#55 rst=0; 
+	#155 rst=1; 
+	end
+endmodule

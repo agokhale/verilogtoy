@@ -4,9 +4,10 @@ module testbench_ctr;
 	wire [32:0] outcount;
 	reg rst; 
 	clock12mhz ck12mhzinst ( ckio);
-	ctr ztrinst (.rst( rst), .clk( ckio),  .countput (outcount[32:0]) );
+	ctr #(.ctr_width( 3))   ztrinst
+		(.rst( rst), .clk( ckio),  .countput (outcount[3:0]) );
 initial begin
-	$dumpvars( 0, ckio, outcount);
+	$dumpvars( 0, ckio, outcount,rst);
 	#4 rst=1;
 	#55 rst=0; 
 	#155 rst=1; 

@@ -1,8 +1,7 @@
 
 // basic b8ch clok generator
 //simulatot timescale gak 
-`timescale 1ns/1ns
-`define sim_length_ns 1000000
+`timescale 1ns/10ps
 
 `define DEBUG 1
 
@@ -20,7 +19,6 @@ initial
 		$dumpvars(0, clockishout); 
 	`endif
 	i=0; 
-	#`sim_length_ns $finish;
 	end
 
 	always begin 

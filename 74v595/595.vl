@@ -1,3 +1,4 @@
+`timescale 1ns/10ps
 module v74v595 ( ser_in, ser_out, parallel_out, clk, oe, clr, latch);
 parameter out_width = 7;
 	input ser_in, clk, oe, clr, latch; 
@@ -16,11 +17,9 @@ always @ (negedge clk)
 
 	else if (latch )
 		parallel_reg <= shift_reg; 
-	else 
-		begin
-		outshiftdff <= shift_reg[0];
-		shift_reg[out_width-1:0 ] = shift_reg[out_width:1];
-		shift_reg[out_width] = ser_in; 
-		end
+
+	outshiftdff = shift_reg[0];
+	shift_reg[out_width-1:0 ] = shift_reg[out_width:1];
+	shift_reg[out_width] = ser_in; 
 	end
 endmodule

@@ -1,0 +1,33 @@
+module test_595 ; 
+	wire ck; 
+	wire v595_1_out; 
+	wire [7:0] p595_1_out; 
+	reg clr; 
+	reg latch;
+	reg ser595_in;
+
+clockish clkinst( ck); 
+v74v595 t595 (.ser_in ( ser595_in), .ser_out( v595_1_out) , .parallel_out( p595_1_out), .clk(ck),  .oe( 1'b1 ), .clr( clr), .latch(latch));
+initial begin 
+	$dumpvars;
+	#1 
+		clr =1;
+		latch=0; 
+	#101 clr=0; 
+	#1299 latch =1; 
+		
+	end
+initial begin 
+	#99 ser595_in =1; 
+	#199 ser595_in =0; 
+	#299 ser595_in =1; 
+	#399 ser595_in =0; 
+	#499 ser595_in =1; 
+	#599 ser595_in =1; 
+	#699 ser595_in =0; 
+	#799 ser595_in =1; 
+	#899 ser595_in =0; 
+	#999 ser595_in =0; 
+	#1099 ser595_in =1; 
+	end
+endmodule 

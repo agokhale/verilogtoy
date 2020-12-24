@@ -1,0 +1,26 @@
+module v74v595 ( ser_in, ser_out, parallel_out, clk, oe, clr, latch);
+parameter out_width = 7;
+	input ser_in, clk, oe, clr, latch; 
+	output ser_out;
+	output [out_width:0] parallel_out;
+	reg [out_width:0] parallel_reg; 
+	reg [out_width:0] shift_reg; 
+	reg outshiftdff;
+assign parallel_out[out_width:0] =  oe ? parallel_reg[out_width:0] : {out_width{1'bZ}};
+assign ser_out = outshiftdff;
+
+always @ (negedge clk) 
+	begin 
+	if ( clr )
+		parallel_reg[out_width:0] <=  {out_width{1'b0}};
+
+	else if (latch )
+		parallel_reg <= shift_reg; 
+	else 
+		begin
+		outshiftdff <= shift_reg[0];
+		shift_reg[out_width-1:0 ] = shift_reg[out_width:1];
+		shift_reg[out_width] = ser_in; 
+		end
+	end
+endmodule

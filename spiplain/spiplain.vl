@@ -1,0 +1,8 @@
+module spisplain ( cs , clk, di, do );
+	input cs, clk,di; 
+	output do;
+
+	always @(negedge clk) begin
+	end
+	
+endmodule 

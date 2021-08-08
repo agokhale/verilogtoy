@@ -1,0 +1,35 @@
+`timescale 1us/10ps
+module test ; 
+	wire ck; 
+	wire [16:0]q_out; 
+	reg clr; 
+	reg qa_in;
+	reg qb_in;
+
+clockish clkinst( ck);  // roll in the 10mhz clock
+                       //.module_sidename(localside_name)
+quadrature_counter qc (.qa_in ( qa_in), .qb_in( qb_in ) , .counter_out( q_out), .clk(ck), .oe( 1'b1 ), .clr( clr));
+
+initial begin 
+	$dumpvars;
+	#1 clr =1;
+	#66 clr=0; 
+end
+initial  begin
+	#1000 $finish;
+end
+
+initial begin // simple count with 
+	#0 begin qa_in <=0; qb_in =0; end
+	#100 {qa_in, qb_in } = 2'b01;
+	#10 {qa_in, qb_in } = 2'b11;
+	#10 {qa_in, qb_in } = 2'b10;
+	#10 {qa_in, qb_in } = 2'b00;
+	#10 {qa_in, qb_in } = 2'b10;
+	#10 {qa_in, qb_in } = 2'b11;
+	#10 {qa_in, qb_in } = 2'b01;
+	#10 {qa_in, qb_in } = 2'b10; // illegal transition
+	#10 clr =1; 
+	#10 clr =0;  	//200us at this point!
+end
+endmodule  // end test

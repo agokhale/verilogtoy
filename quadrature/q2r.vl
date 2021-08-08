@@ -1,0 +1,53 @@
+`timescale 1ns/10ps
+module quadrature_counter ( qa_in, qb_in, counter_out, clk, oe, clr , err);
+parameter out_width = 16;
+	input qa_in, qb_in, clk, oe, clr;
+	output [out_width:0] counter_out;
+	reg [out_width:0] counter_reg; 
+	reg  prev_a;
+	reg  prev_b;
+	reg init_oneshot;
+	output err;
+	reg err_reg;
+assign counter_out[out_width:0] =  oe ? counter_reg[out_width:0] : {out_width{1'bZ}};
+assign err = err_reg;
+always @ (negedge clk) begin 
+	if ( clr ) begin
+		err_reg <=0;
+		init_oneshot <=1;
+	end
+	if ( init_oneshot && !clr )  begin
+		counter_reg[out_width:0] <= 0;
+		init_oneshot <=0;
+		$write ("oneshot\n");
+		{prev_a,  prev_b } <= { qa_in, qb_in }; // not precicely  clear
+	end
+	else begin
+	/*
+	a | b - states
+	0 0 <-
+	0 1   |
+	1 1   |
+	1 0 <-
+	*/
+	case ( {prev_a, prev_b, qa_in, qb_in})
+		//{oldstate,newstate}
+		4'b0001: counter_reg <= counter_reg+1; //clockwies
+		4'b0111: counter_reg <= counter_reg+1;
+		4'b1110: counter_reg <= counter_reg+1;
+		4'b1000: counter_reg <= counter_reg+1;
+		4'b0010: counter_reg <= counter_reg-1; //widdershins
+		4'b1011: counter_reg <= counter_reg-1;
+		4'b1101: counter_reg <= counter_reg-1;
+		4'b0111: counter_reg <= counter_reg-1;
+		4'b1100: err_reg <=1; //  tilt! impossivle transitions
+		4'b0011: err_reg <=1; 
+		4'b1001: err_reg <=1;
+		4'b0110: err_reg <=1;
+		default: counter_reg <= counter_reg; // NOOP
+	endcase
+	// step the ff's to the currect sate
+	{prev_a,  prev_b } <= { qa_in, qb_in };
+	end
+end
+endmodule

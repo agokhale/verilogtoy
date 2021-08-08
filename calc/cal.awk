@@ -5,10 +5,16 @@ BEGIN {
 	clks[2] = 16;
 	clks[3] = 20;
 	clks[4] = 24;
+	clks[5] = 25;
 }
 // {
 	printf ("baud: %s\n", $1);
 	for( i in clks) {
-		printf ("	clk:%s divider:%s\n", clks[i], (clks[i]*1000000)/ $1); 
+		ratio = (clks[i]*1000000)/ $1;
+		printf ("	clk:%s divider:%s ", clks[i], ratio); 
+		if ( floor ( ratio ) == ratio ) { 
+			printf ( " -ven- %s ", floor(ratio) - ratio );
+		}
+		printf ("\n");
 	}
 }

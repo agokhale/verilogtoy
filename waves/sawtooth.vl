@@ -1,11 +1,15 @@
 `timescale 1ns/1ps
-module sawtooth ( rst,clk, updown, p_out );
+module sawtooth ( rst,clk, updown, p_out, z_out );
 parameter bitc = 5;
 	input rst, clk,updown;
-	output  [bitc:0] p_out; 
+	output  [bitc:0] p_out, z_out; 
 
 reg [bitc:0] oreg; 
 assign p_out [bitc:0] = oreg[bitc:0];
+
+// mark zero crossing  so a freq meter can lock on
+assign z_out = (  oreg[bitc:1] == { 1'b1, {(bitc-1){1'b0}} }  ) ? 1:0 ; 
+
 always @(negedge clk) begin
 	if (rst) 
 		oreg[bitc:0] =  {(1+bitc){1'b0}}; //XX is fenceposting top bit?

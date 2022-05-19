@@ -1,28 +1,38 @@
 `timescale 1ns/10ps
 module tb_saw ; 
 parameter vbitc = 3;
-wire vck;
+wire vck,clk_def;
 wire [vbitc:0]vout;
 reg vrst, vupdown; 
 
 clockish clkinst(vck); 
+clocksplitter csdef ( vrst, vck, clk_def);
+defparam csdef.modval = 130;
 sawtooth	sawtoothinst (
 	.rst ( vrst),
-	.clk ( vck), 
+	.clk ( clk_def), 
 	.updown (vupdown),
 	.p_out (vout) 
 ); 
 defparam sawtoothinst.bitc = vbitc; 
 		
+pwm pwminst ( 
+	.rst( vrst), 
+	.clk( vck ), 
+	.dutyc ( vout )  /// too fast changes
+); 
+defparam pwminst.bitc = vbitc; 
+	
 
 initial begin
 	$dumpvars;
 	#0 vrst = 1; 
 	$display("up");
 	#10 vupdown = 1; 
-	#110 vrst = 0; 
-	#10000 vupdown =0;
+	#1101 vrst = 0; 
+	#300000 vupdown =0;
 	$display("down");
+	$display ( " bits", $clog2( 333)); 
 end
 
 endmodule

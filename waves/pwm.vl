@@ -1,0 +1,25 @@
+module pwm (rst, clk ,  dutyc , q_out, z_out); 
+
+parameter bitc = 7; 
+	input rst, clk;
+	input [bitc:0] dutyc; 
+	output q_out,z_out;
+
+	reg [bitc:0]  acc;
+	reg  q;
+
+assign outpwm = q;  // XXX skip this output?
+assign z_out = &acc;
+
+always @ ( negedge clk ) begin
+	if ( rst ) 
+		acc = { (bitc+1){1'b0} } ;
+	else begin
+		if ( acc == dutyc && ( 0 != |dutyc ) )  // dont glict for 0%
+			q = 1;
+		if ( (acc == 0) && ( ~&dutyc ) ) //dont glitch for  100%
+			q=0; 
+	acc = acc - 1; 
+	end
+end
+endmodule

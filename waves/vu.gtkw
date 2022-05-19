@@ -1,0 +1,31 @@
+[*]
+[*] GTKWave Analyzer v3.3.111 (w)1999-2020 BSI
+[*] Thu May 19 18:29:56 2022
+[*]
+[dumpfile] "/usr/home/xpi/src/verilogtoy/waves/dump.vcd"
+[dumpfile_mtime] "Thu May 19 18:27:20 2022"
+[dumpfile_size] 558445
+[savefile] "/usr/home/xpi/src/verilogtoy/waves/vu.gtkw"
+[timestart] 4390000
+[size] 1715 1121
+[pos] -1 -1
+*-21.000000 11300000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_saw.
+[sst_width] 214
+[signals_width] 110
+[sst_expanded] 1
+[sst_vpaned_height] 376
+@28
+tb_saw.sawtoothinst.updown
+tb_saw.sawtoothinst.rst
+@8022
+tb_saw.sawtoothinst.p_out[3:0]
+@20000
+-
+-
+-
+@22
+tb_saw.sawtoothinst.p_out[3:0]
+tb_saw.sawtoothinst.z_out[3:0]
+[pattern_trace] 1
+[pattern_trace] 0

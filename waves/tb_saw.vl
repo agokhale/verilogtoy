@@ -1,0 +1,24 @@
+`timescale 1ns/10ps
+module tb_saw ; 
+parameter vbitc = 5;
+wire vck;
+wire [vbitc:0]vout;
+reg vrst, vupdown; 
+
+clockish clkinst(vck); 
+sawtooth sawtoothinst (
+	.rst ( vrst),
+	.clk ( vck), 
+	.updown (vupdown),
+	.p_out (vout) 
+); 
+		
+
+initial begin
+	$dumpvars;
+	#0 vrst = 1; 
+	#10 vupdown = 1; 
+	#110 vrst = 0; 
+end
+
+endmodule

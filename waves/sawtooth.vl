@@ -8,7 +8,7 @@ reg [bitc:0] oreg;
 assign p_out [bitc:0] = oreg[bitc:0];
 always @(negedge clk) begin
 	if (rst) 
-		oreg[bitc:0] =  {bitc{1'b0}}; //XX is fenceposting top bit?
+		oreg[bitc:0] =  {(1+bitc){1'b0}}; //XX is fenceposting top bit?
 	else begin
 		if ( updown ) 
 			oreg = oreg +1; 

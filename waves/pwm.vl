@@ -8,7 +8,7 @@ parameter bitc = 7;
 	reg [bitc:0]  acc;
 	reg  q;
 
-assign outpwm = q;  // XXX skip this output?
+assign q_out = q;  // XXX skip this output?
 assign z_out = &acc;
 
 always @ ( negedge clk ) begin

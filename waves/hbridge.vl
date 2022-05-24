@@ -1,0 +1,46 @@
+`timescale 1ns/10ps
+// tb in twb_saw.vl
+module hbridge ( rst, clk, in_pwm, hi_out, lo_out, dead_out);
+input rst, clk, in_pwm;
+output hi_out, lo_out, dead_out;
+parameter kdeadtime = 30;// mumber of clocks to have dead  time
+reg  [$clog2( kdeadtime):0 ]  deadtimer;
+reg  old_pwm;
+reg  hi_out_reg, lo_out_reg, dead_out_reg;
+
+assign hi_out = hi_out_reg; 
+assign lo_out = lo_out_reg;
+assign dead_out = dead_out_reg;
+
+always @(negedge clk) begin
+	if ( rst )  begin
+		deadtimer= {($clog2(kdeadtime)+1){1'b1}}; 
+		old_pwm = 1'b0;
+		dead_out_reg = 1'b1;
+		hi_out_reg = 1'b0;
+		lo_out_reg = 1'b0;
+	end
+	else begin
+		if ( deadtimer > 0 ) begin 
+			deadtimer = deadtimer - 1; 
+			dead_out_reg = 1'b1; 
+			hi_out_reg =0; 
+			lo_out_reg =0; 
+		end
+		if ( old_pwm != in_pwm)  begin
+			old_pwm = in_pwm; 
+			deadtimer = kdeadtime;
+		end
+		if ( deadtimer == 0 ) begin
+			hi_out_reg = in_pwm; 
+			lo_out_reg = ~in_pwm;
+			dead_out_reg = 0; 
+		end
+	end // not rst
+end
+
+initial begin
+	$display("hbridge kdeadtime",kdeadtime,"Storage bits:",($clog2(kdeadtime)+1));
+end
+endmodule
+

@@ -4,6 +4,7 @@ parameter vbitc = 3;
 wire vck,clk_def;
 wire [vbitc:0]vout;
 reg vrst, vupdown; 
+wire vpwm , vhi, vlo,vdead; 
 
 clockish clkinst(vck); 
 clocksplitter csdef ( vrst, vck, clk_def);
@@ -19,10 +20,13 @@ defparam sawtoothinst.bitc = vbitc;
 pwm pwminst ( 
 	.rst( vrst), 
 	.clk( vck ), 
-	.dutyc ( vout )  /// too fast changes
+	.dutyc ( vout ),  /// too fast changes
+	.q_out( vpwm)
 ); 
 defparam pwminst.bitc = vbitc; 
 	
+hbridge hbinst( vrst, vck, vpwm, vhi, vlo, vdead);   
+defparam hbinst.kdeadtime = 3;
 
 initial begin
 	$dumpvars;

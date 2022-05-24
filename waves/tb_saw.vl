@@ -3,6 +3,9 @@ module tb_saw ;
 parameter vbitc = 3;
 wire vck,clk_def;
 wire [vbitc:0]vout;
+wire [vbitc:0]triout;
+wire trizout;
+
 reg vrst, vupdown; 
 wire vpwm , vhi, vlo,vdead; 
 
@@ -27,6 +30,9 @@ defparam pwminst.bitc = vbitc;
 	
 hbridge hbinst( vrst, vck, vpwm, vhi, vlo, vdead);   
 defparam hbinst.kdeadtime = 3;
+
+triangle tri_inst ( vrst, clk_def,  triout, trizout);
+defparam tri_inst.bitc = vbitc; 
 
 initial begin
 	$dumpvars;

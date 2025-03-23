@@ -1,0 +1,27 @@
+`timescale 1ns/1ps
+module triangle ( rst,clk, p_out, z_out );
+parameter bitc = 5;
+	input rst, clk;
+	output  [bitc:0] p_out, z_out; 
+
+reg [bitc:0] oreg; 
+reg direction; 
+assign p_out [bitc:0] = oreg[bitc:0];
+
+// mark zero crossing  so a freq meter can lock on
+assign z_out = (  oreg[bitc:1] == { 1'b1, {(bitc-1){1'b0}} }  ) ? 1:0 ; 
+
+always @(negedge clk) begin
+	if (rst)  begin
+		oreg[bitc:0] =  {(1+bitc){1'b0}}; //XX is fenceposting top bit?
+		direction = 1'b1;
+	end
+	else begin
+			if (direction == 1)
+				 oreg = oreg + 1; 
+			else
+				 oreg = oreg - 1; 
+			if ( oreg == 0 || oreg == {(1+bitc){1'b1}}) direction = ~direction;
+	end
+end
+endmodule //triangle

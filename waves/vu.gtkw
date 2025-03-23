@@ -1,0 +1,56 @@
+[*]
+[*] GTKWave Analyzer v3.3.111 (w)1999-2020 BSI
+[*] Tue May 24 19:46:01 2022
+[*]
+[dumpfile] "/usr/home/xpi/src/verilogtoy/waves/dump.vcd"
+[dumpfile_mtime] "Tue May 24 19:35:06 2022"
+[dumpfile_size] 571841
+[savefile] "/usr/home/xpi/src/verilogtoy/waves/vu.gtkw"
+[timestart] 937380000
+[size] 2534 935
+[pos] -1 -1
+*-22.487963 172400000 172400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_saw.
+[sst_width] 214
+[signals_width] 143
+[sst_expanded] 1
+[sst_vpaned_height] 303
+@28
+tb_saw.hbinst.clk
+@8022
+tb_saw.tri_inst.p_out[3:0]
+@20000
+-
+@c00023
+tb_saw.tri_inst.p_out[3:0]
+@28
+(0)tb_saw.tri_inst.p_out[3:0]
+(1)tb_saw.tri_inst.p_out[3:0]
+(2)tb_saw.tri_inst.p_out[3:0]
+(3)tb_saw.tri_inst.p_out[3:0]
+@1401201
+-group_end
+@28
+tb_saw.sawtoothinst.updown
+@8022
+tb_saw.sawtoothinst.p_out[3:0]
+@20000
+-
+-
+-
+-
+@22
+tb_saw.sawtoothinst.p_out[3:0]
+tb_saw.sawtoothinst.z_out[3:0]
+@28
+[color] 2
+tb_saw.clk_def
+tb_saw.hbinst.in_pwm
+tb_saw.hbinst.old_pwm
+[color] 1
+tb_saw.hbinst.hi_out
+tb_saw.hbinst.dead_out
+[color] 6
+tb_saw.hbinst.lo_out
+[pattern_trace] 1
+[pattern_trace] 0

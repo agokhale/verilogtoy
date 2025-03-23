@@ -1,0 +1,25 @@
+module clocksplitter ( rst, clk, q_out );
+parameter modval = 333;
+input rst, clk;
+output q_out;
+reg q; 
+
+assign q_out = q; 
+
+reg [($clog2(modval)-1):0] acc;  // should be jsut enoutsh enought to store modval; 
+	
+always @( negedge clk ) begin
+	if ( rst )	 begin 
+		acc = 0; 
+		q = 0; 
+	end
+	else	begin
+		if ( acc == modval ) begin 
+			q = ~q; 
+			acc = 0; 
+		end //==modval
+		else 
+			acc = acc + 1;
+	end //else
+end // always
+endmodule

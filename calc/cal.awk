@@ -13,7 +13,7 @@ BEGIN {
 		ratio = (clks[i]*1000000)/ $1;
 		printf ("	clk:%s divider:%s ", clks[i], ratio); 
 		if ( floor ( ratio ) == ratio ) { 
-			printf ( " -ven- %s ", floor(ratio) - ratio );
+			printf ( " -ven- %s ", int(ratio) - ratio );
 		}
 		printf ("\n");
 	}

@@ -10,8 +10,10 @@ clockish clkinst( ck);  // roll in the 10mhz clock
                        //.module_sidename(localside_name)
 quadrature_counter qc (.qa_in ( qa_in), .qb_in( qb_in ) , .counter_out( q_out), .clk(ck), .oe( 1'b1 ), .clr( clr));
 
+tbupdown tud ( ._in ( qa_in), .qb_in( qb_in ) , .counter_out( q_out), .clk(ck), .oe( 1'b1 ), .clr( clr));
+
 initial begin 
-	$dumpvars;
+	$dumpvars; // dump.vcd is implicit unless $dumpfile is set
 	#1 clr =1;
 	#66 clr=0; 
 end

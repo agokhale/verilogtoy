@@ -3,5 +3,5 @@
 mkdir -p obj
 trg=q2r
 
-iverilog -Wtimescale -o $trg ${trg}.vl clockish.vl tb.vl
-vvp -v $trg
+iverilog -Wtimescale -o obj/$trg ${trg}.vl clockish.vl tb.vl tbupdown.vl
+vvp -v obj/$trg
